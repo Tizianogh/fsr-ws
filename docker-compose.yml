@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  mysql:
+    image: mysql:8.0.31
+    container_name: fsr
+    ports:
+      - 3306:3306
+    volumes:
+      - ./data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=JPA
