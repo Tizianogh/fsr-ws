@@ -1,4 +1,4 @@
-package com.lip6.entities;
+package com.lip6.domain.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +12,7 @@ public class PhoneNum {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idPhoneNum;
-	
+
 	private String num;
 
 	@ManyToOne
@@ -22,29 +22,25 @@ public class PhoneNum {
 	public PhoneNum() {
 
 	}
-	
-	
 
 	public PhoneNum(String num) {
 		this.num = num;
 	}
 
-
-
 	public String getNum() {
 		return num;
 	}
-
-
 
 	public void setNum(String num) {
 		this.num = num;
 	}
 
-
-
 	public void setContact(Contact contact) {
 		this.contact = contact;
 	}
 
+	@Override
+	public String toString() {
+		return "PhoneNum [idPhoneNum=" + idPhoneNum + ", num=" + num + ", contact=" + contact + "]";
+	}
 }

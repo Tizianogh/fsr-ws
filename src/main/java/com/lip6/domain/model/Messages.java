@@ -1,10 +1,10 @@
-package com.lip6.entities;
+package com.lip6.domain.model;
 
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class Messages {
-	private static final String BUNDLE_NAME = "com.lip6.entities.Messages";
+	private static final String BUNDLE_NAME = "com.lip6.domain.model.Messages";
 
 	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 

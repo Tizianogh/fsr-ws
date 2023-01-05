@@ -15,12 +15,84 @@
         http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<!-- <context:component-scan base-package="com.lip6.services.*" /> <context:annotation-config/> -->
+	<bean id="emf" class="com.lip6.util.JpaUtil"
+		factory-method="getEmf" />
 
-	<bean id="cdao" class="com.lip6.daos.DAOContact" />
-
-	<bean id="beanFoo" class="com.lip6.entities.Contact">
-		<property name="firstName" value="illiona" />
-		<property name="lastName" value="Bernard" />
-		<property name="email" value="ailliona.bernard@gmail.com" />
+	<bean id="firstContactFromBean"
+		class="com.lip6.domain.model.Contact">
+		<property name="firstName">
+			<value>Pierre-Jean</value>
+		</property>
+		<property name="lastName">
+			<value>Miguel</value>
+		</property>
+		<property name="email">
+			<value>pj@gmail.com</value>
+		</property>
 	</bean>
+
+	<bean id="secondContactFromBean"
+		class="com.lip6.domain.model.Contact">
+		<property name="firstName">
+			<value>Aymeric</value>
+		</property>
+		<property name="lastName">
+			<value>Laforche</value>
+		</property>
+		<property name="email">
+			<value>al@gmail.com</value>
+		</property>
+	</bean>
+
+	<bean id="adressForContactNumberOne"
+		class="com.lip6.domain.model.Address">
+		<property name="rue">
+			<value>55 Rue Diderot</value>
+		</property>
+		<property name="departement">
+			<value>94500</value>
+		</property>
+		<property name="ville">
+			<value>Champigny-Sur-Marne</value>
+		</property>
+	</bean>
+
+	<bean id="adressForContactNumberTwo"
+		class="com.lip6.domain.model.Address">
+		<property name="rue">
+			<value>200 Av. de la République</value>
+		</property>
+		<property name="departement">
+			<value>92000</value>
+		</property>
+		<property name="ville">
+			<value>Nanterre</value>
+		</property>
+	</bean>
+
+
+	<bean id="numNumberOne" class="com.lip6.domain.model.PhoneNum">
+		<property name="num">
+			<value>0678845625</value>
+		</property>
+	</bean>
+
+	<bean id="numNumberTwo" class="com.lip6.domain.model.PhoneNum">
+		<property name="num">
+			<value>0754854765</value>
+		</property>
+	</bean>
+	
+		<bean id="numNumberThree" class="com.lip6.domain.model.PhoneNum">
+		<property name="num">
+			<value>0147748547</value>
+		</property>
+	</bean>
+
+	<bean id="numNumberFour" class="com.lip6.domain.model.PhoneNum">
+		<property name="num">
+			<value>0554589621</value>
+		</property>
+	</bean>
+
 </beans>

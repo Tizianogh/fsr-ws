@@ -1,4 +1,4 @@
-package com.lip6.entities;
+package com.lip6.domain.model;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,6 +11,10 @@ import javax.persistence.ManyToMany;
 
 @Entity
 public class ContactGroup {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long idContact;
+
 	private String libelle;
 
 	public ContactGroup() {
@@ -19,11 +23,10 @@ public class ContactGroup {
 	public ContactGroup(String libelle) {
 		this.libelle = libelle;
 	}
-	
-	public Set<Contact> getContacts(){
+
+	public Set<Contact> getContacts() {
 		return this.contacts;
 	}
-	
 
 	public String getLibelle() {
 		return libelle;
@@ -33,9 +36,14 @@ public class ContactGroup {
 		this.libelle = libelle;
 	}
 
+	public long getIdContact() {
+		return idContact;
+	}
 
+	public void setIdContact(long idContact) {
+		this.idContact = idContact;
+	}
 
-	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idContactGroup;
 
