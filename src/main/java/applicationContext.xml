@@ -82,8 +82,8 @@
 			<value>0754854765</value>
 		</property>
 	</bean>
-	
-		<bean id="numNumberThree" class="com.lip6.domain.model.PhoneNum">
+
+	<bean id="numNumberThree" class="com.lip6.domain.model.PhoneNum">
 		<property name="num">
 			<value>0147748547</value>
 		</property>
@@ -94,5 +94,10 @@
 			<value>0554589621</value>
 		</property>
 	</bean>
-
+	
+	<bean id="firstGroupContactFromBean" class="com.lip6.domain.model.ContactGroup">
+		<property name="libelle">
+			<value>Le groupe numero1</value>
+		</property>
+	</bean>
 </beans>

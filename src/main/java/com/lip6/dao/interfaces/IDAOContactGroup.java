@@ -1,7 +1,12 @@
 package com.lip6.dao.interfaces;
 
-import org.springframework.stereotype.Repository;
+import com.lip6.domain.model.ContactGroup;
+import com.lip6.domain.model.DTO.ContactGroupDTO;
 
 public interface IDAOContactGroup {
-	public void createContactGroup();
+    public ContactGroup createContactGroup(ContactGroup contactGroup);
+
+    public ContactGroupDTO getContactGroupById(Long idGroupContact);
+
+    public ContactGroup getContactGroupProxyById(Long idGroupContact);
 }

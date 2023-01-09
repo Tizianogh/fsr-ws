@@ -1,16 +1,55 @@
 package com.lip6.dao.implementation;
 
-import org.springframework.stereotype.Repository;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 
-import com.lip6.dao.interfaces.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
-@Repository
-public class DAOContactGroup implements IDAOContactGroup
-{
+import com.lip6.dao.interfaces.IDAOContactGroup;
+import com.lip6.domain.model.ContactGroup;
+import com.lip6.domain.model.DTO.ContactGroupDTO;
 
-	@Override
-	public void createContactGroup() {
-		
-	}
+@Service
+@Qualifier("daoContactGroup")
+public class DAOContactGroup implements IDAOContactGroup {
+    @Autowired
+    private EntityManagerFactory emf;
 
+    @Override
+    public ContactGroup createContactGroup(ContactGroup contactGroup) {
+        EntityManager entityManager = this.emf.createEntityManager();
+        EntityTransaction tx = entityManager.getTransaction();
+
+        tx.begin();
+        entityManager.persist(contactGroup);
+        tx.commit();
+        entityManager.close();
+
+        return contactGroup;
+    }
+
+    @Override
+    public ContactGroupDTO getContactGroupById(Long idGroupContact) {
+        EntityManager entityManager = this.emf.createEntityManager();
+
+        String getDTOContactGroupByIdRequest = "SELECT NEW com.lip6.domain.model.DTO.ContactGroupDTO(cg.idContactGroup, cg.libelle) from ContactGroup cg where cg.idContactGroup= :id";
+
+        ContactGroupDTO contactGroupDTO = entityManager.createQuery(getDTOContactGroupByIdRequest, ContactGroupDTO.class)
+                .setParameter("id", idGroupContact).getSingleResult();
+
+        entityManager.close();
+        return contactGroupDTO;
+    }
+
+    @Override
+    public ContactGroup getContactGroupProxyById(Long idGroupContact) {
+        EntityManager entityManager = this.emf.createEntityManager();
+
+        ContactGroup contactGroupProxyById = entityManager.getReference(ContactGroup.class, idGroupContact);
+
+        return contactGroupProxyById;
+    }
 }

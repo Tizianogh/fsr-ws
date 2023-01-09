@@ -4,50 +4,55 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class ContactGroup {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long idContact;
 
-	private String libelle;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long idContactGroup;
 
-	public ContactGroup() {
-	}
+    private String libelle;
 
-	public ContactGroup(String libelle) {
-		this.libelle = libelle;
-	}
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "contactGroups")
+    @JsonBackReference
+    private Set<Contact> contacts = new HashSet<Contact>();
 
-	public Set<Contact> getContacts() {
-		return this.contacts;
-	}
+    public ContactGroup() {
+    }
 
-	public String getLibelle() {
-		return libelle;
-	}
+    public ContactGroup(String libelle) {
+        this.libelle = libelle;
+    }
 
-	public void setLibelle(String libelle) {
-		this.libelle = libelle;
-	}
+    public Set<Contact> getContacts() {
+        return this.contacts;
+    }
 
-	public long getIdContact() {
-		return idContact;
-	}
+    public String getLibelle() {
+        return libelle;
+    }
 
-	public void setIdContact(long idContact) {
-		this.idContact = idContact;
-	}
+    public void setLibelle(String libelle) {
+        this.libelle = libelle;
+    }
 
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long idContactGroup;
+    public void setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
+    }
 
-	@ManyToMany(mappedBy = "contactGroups")
-	private Set<Contact> contacts = new HashSet<Contact>();
+    public long getIdContactGroup() {
+        return idContactGroup;
+    }
 
+    public void setIdContactGroup(long idContactGroup) {
+        this.idContactGroup = idContactGroup;
+    }
 }
