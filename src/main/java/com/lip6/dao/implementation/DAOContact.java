@@ -69,8 +69,8 @@ public class DAOContact implements IDAOContact {
         EntityManager entityManager = this.emf.createEntityManager();
         EntityTransaction tx = entityManager.getTransaction();
         tx.begin();
-
         entityManager.persist(contact);
+
         tx.commit();
 
         entityManager.close();

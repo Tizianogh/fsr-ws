@@ -3,14 +3,14 @@ package com.lip6.domain.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class ContactGroup {
@@ -21,14 +21,15 @@ public class ContactGroup {
 
     private String libelle;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "contactGroups")
-    @JsonBackReference
+    @ManyToMany(cascade = CascadeType.PERSIST, mappedBy = "contactGroups")
+    @JsonIgnore
     private Set<Contact> contacts = new HashSet<Contact>();
 
     public ContactGroup() {
     }
 
     public ContactGroup(String libelle) {
+
         this.libelle = libelle;
     }
 
