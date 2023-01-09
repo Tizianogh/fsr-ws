@@ -1,15 +1,11 @@
 package com.lip6.dao.implementation;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -22,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import com.lip6.dao.interfaces.IDAOContact;
 import com.lip6.domain.model.Contact;
-import com.lip6.domain.model.Messages;
 import com.lip6.domain.model.DTO.ContactDTO;
 
 @Service
@@ -116,103 +111,6 @@ public class DAOContact implements IDAOContact {
     }
 
     @Override
-    public boolean modifyContact(long id, String firstname, String lastname, String email) {
-        boolean success = false;
-        Connection con = null;
-        try {
-            Class.forName(Messages.getString("driver"));
-            con = DriverManager.getConnection(Messages.getString("database"), Messages.getString("username"),
-                    Messages.getString("password"));
-            Statement stmt = con.createStatement();
-            String sqlFirstName = "UPDATE contact SET firstname = " + "'" + firstname + "'" + " WHERE id = " + id;
-            String sqlLastName = "UPDATE contact SET lastname = " + "'" + lastname + "'" + " WHERE id = " + id;
-            String sqlEmail = "UPDATE contact SET email = " + "'" + email + "'" + " WHERE id = " + id;
-
-            if (firstname != "")
-                stmt.executeUpdate(sqlFirstName);
-            if (lastname != "")
-                stmt.executeUpdate(sqlLastName);
-            if (email != "")
-                stmt.executeUpdate(sqlEmail);
-
-            success = true;
-            stmt.close();
-            con.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return success;
-    }
-
-    @Override
-    public ArrayList<Contact> getContactByFirstName(String firstname) {
-
-        ArrayList<Contact> contacts = new ArrayList<Contact>();
-
-        ResultSet rec = null;
-        Connection con = null;
-        try {
-            Class.forName(Messages.getString("driver"));
-            con = DriverManager.getConnection(Messages.getString("database"), Messages.getString("username"),
-                    Messages.getString("password"));
-            Statement stmt = con.createStatement();
-            rec = stmt.executeQuery("SELECT * FROM contacts WHERE firstname = " + "'" + firstname + "'");
-
-            while (rec.next()) {
-                Contact contact = new Contact();
-                contact.setIdContact(Long.parseLong(rec.getString("id")));
-                contact.setFirstName(rec.getString("firstname"));
-                contact.setLastName(rec.getString("lastname"));
-                contact.setEmail(rec.getString("email"));
-
-                contacts.add(contact);
-            }
-
-            stmt.close();
-            rec.close();
-            con.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return contacts;
-    }
-
-    @Override
-    public ArrayList<Contact> getContactByLastName(String lastname) {
-
-        ArrayList<Contact> contacts = new ArrayList<Contact>();
-
-        ResultSet rec = null;
-        Connection con = null;
-        try {
-            Class.forName(Messages.getString("driver"));
-            con = DriverManager.getConnection(Messages.getString("database"), Messages.getString("username"),
-                    Messages.getString("password"));
-            Statement stmt = con.createStatement();
-            rec = stmt.executeQuery("SELECT * FROM contacts WHERE lastname = " + "'" + lastname + "'");
-
-            while (rec.next()) {
-                Contact contact = new Contact();
-                contact.setIdContact(Long.parseLong(rec.getString("id")));
-                contact.setFirstName(rec.getString("firstname"));
-                contact.setLastName(rec.getString("lastname"));
-                contact.setEmail(rec.getString("email"));
-                contacts.add(contact);
-            }
-
-            stmt.close();
-            rec.close();
-            con.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return contacts;
-    }
-
-    @Override
     public List<Contact> getAllContacts() {
         EntityManager entityManager = this.emf.createEntityManager();
 
@@ -222,5 +120,21 @@ public class DAOContact implements IDAOContact {
         query.select(variableRoot);
 
         return entityManager.createQuery(query).getResultList();
+    }
+
+    @Override
+    public int updateContact(Contact contact) {
+        EntityManager entityManager = this.emf.createEntityManager();
+        EntityTransaction tx = entityManager.getTransaction();
+        tx.begin();
+        String request = "UPDATE Contact c SET c.firstName=:firstName, c.lastName=:lastName, c.email= :email WHERE c.idContact=:idContact";
+        Query query = entityManager.createQuery(request).setParameter("firstName", contact.getFirstName())
+                .setParameter("lastName", contact.getLastName()).setParameter("email", contact.getEmail())
+                .setParameter("idContact", contact.getIdContact());
+
+        int numberOfRowsUpdated = query.executeUpdate();
+        tx.commit();
+        entityManager.close();
+        return numberOfRowsUpdated;
     }
 }

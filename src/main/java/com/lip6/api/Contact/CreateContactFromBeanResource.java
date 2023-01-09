@@ -52,40 +52,6 @@ public class CreateContactFromBeanResource extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
 
-        /*
-         * Contact firstContactFromBean = (Contact) context.getBean("firstContactFromBean");
-         * Contact secondContactFromBean = (Contact) context.getBean("secondContactFromBean");
-         * 
-         * Address addressForBeanNumberOne = (Address) context.getBean("adressForContactNumberOne");
-         * Address addressForBeanNumberTwo = (Address) context.getBean("adressForContactNumberTwo");
-         * 
-         * Set<PhoneNum> setOfNumsForBeanOne = Stream
-         * .of((PhoneNum) context.getBean("numNumberOne"), (PhoneNum) context.getBean("numNumberTwo"))
-         * .collect(Collectors.toSet());
-         * Set<PhoneNum> setOfNumsForBeanTwo = Stream
-         * .of((PhoneNum) context.getBean("numNumberThree"), (PhoneNum) context.getBean("numNumberFour"))
-         * .collect(Collectors.toSet());
-         * 
-         * firstContactFromBean.setAddress(addressForBeanNumberOne);
-         * addressForBeanNumberOne.setContact(firstContactFromBean);
-         * 
-         * secondContactFromBean.setAddress(addressForBeanNumberTwo);
-         * addressForBeanNumberTwo.setContact(secondContactFromBean);
-         * 
-         * firstContactFromBean.setPhones(setOfNumsForBeanOne);
-         * setOfNumsForBeanOne.forEach($ -> $.setContact(firstContactFromBean));
-         * 
-         * secondContactFromBean.setPhones(setOfNumsForBeanTwo);
-         * setOfNumsForBeanTwo.forEach($ -> $.setContact(secondContactFromBean));
-         * 
-         * ContactGroup firstContactGroup = (ContactGroup) context.getBean("firstGroupContactFromBean");
-         * 
-         * firstContactGroup.getContacts().add(firstContactFromBean);
-         * firstContactFromBean.getContactGroups().add(firstContactGroup);
-         * 
-         * firstContactGroup.getContacts().add(secondContactFromBean);
-         * secondContactFromBean.getContactGroups().add(firstContactGroup);
-         */
         Contact firstContactFromBean = (Contact) context.getBean("firstContactFromBean");
         Contact secondContactFromBean = (Contact) context.getBean("secondContactFromBean");
         ContactGroup firstContactGroup = (ContactGroup) context.getBean("firstGroupContactFromBean");
