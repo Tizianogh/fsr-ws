@@ -1,4 +1,4 @@
-package com.lip6.api.Contact;
+package com.lip6.api.contact;
 
 import static org.springframework.http.HttpStatus.CREATED;
 

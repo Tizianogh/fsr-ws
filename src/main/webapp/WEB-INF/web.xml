@@ -24,4 +24,13 @@
 		<!-- <param-value>com.lip6.services, com.lip6.daos</param-value> -->
 		<param-value>com.lip6.configuration</param-value>
 	</context-param>
+	<filter>
+		<filter-name>CorsFilter</filter-name>
+		<filter-class>package com.lip6.api.cors.CORSFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>CorsFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>
