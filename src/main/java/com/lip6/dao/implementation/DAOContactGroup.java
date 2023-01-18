@@ -3,6 +3,7 @@ package com.lip6.dao.implementation;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
+import org.hibernate.annotations.QueryHints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -52,10 +53,13 @@ public class DAOContactGroup implements IDAOContactGroup {
 
   @Override
   public ContactGroup getContactGroupProxyById(Long idGroupContact) {
+    String request = "SELECT DISTINCT c FROM ContactGroup c LEFT JOIN FETCH c.contacts WHERE c.idContactGroup= :idContactGroup";
     EntityManager entityManager = this.emf.createEntityManager();
 
     ContactGroup contactGroupProxyById =
-        entityManager.getReference(ContactGroup.class, idGroupContact);
+        entityManager.createQuery(request, ContactGroup.class)
+        .setParameter("idContactGroup", idGroupContact).getSingleResult();
+
 
     return contactGroupProxyById;
   }
@@ -70,10 +74,11 @@ public class DAOContactGroup implements IDAOContactGroup {
     ContactGroup cgById = this.getContactGroupProxyById(idContactGroup);
     tx.begin();
 
-    cgById.addContact(contactByEmail);
-
-    entityManager.merge(contactByEmail);
+    cgById.getContacts().add(contactByEmail);
+    contactByEmail.getContactGroups().add(cgById);
+    
     entityManager.merge(cgById);
+    entityManager.merge(contactByEmail);
 
     tx.commit();
 
@@ -85,8 +90,10 @@ public class DAOContactGroup implements IDAOContactGroup {
   @Override
   public ContactGroup getGroupContactById(Long idGroupContact) {
     EntityManager entityManager = this.emf.createEntityManager();
-
-    return entityManager.find(ContactGroup.class, idGroupContact);
+    ContactGroup find = entityManager.find(ContactGroup.class, idGroupContact);
+    entityManager.close();
+    return find;
+    
   }
 
   @Override
@@ -100,11 +107,13 @@ public class DAOContactGroup implements IDAOContactGroup {
 
     tx.begin();
 
-    cgById.removeContact(contactByEmail);
-
+    cgById.getContacts().remove(contactByEmail);
+    contactByEmail.getContactGroups().remove(cgById);
+    
     entityManager.merge(cgById);
     entityManager.merge(contactByEmail);
-
+    entityManager.flush();
+    
     tx.commit();
     entityManager.close();
 

@@ -118,8 +118,11 @@ public class DAOContact implements IDAOContact {
         CriteriaQuery<Contact> query = builder.createQuery(Contact.class);
         Root<Contact> variableRoot = query.from(Contact.class);
         query.select(variableRoot);
+        List<Contact> resultList = entityManager.createQuery(query).getResultList();
+        
+        entityManager.close();
 
-        return entityManager.createQuery(query).getResultList();
+        return resultList;
     }
 
     @Override

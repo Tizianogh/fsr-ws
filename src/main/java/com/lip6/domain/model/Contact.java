@@ -44,7 +44,7 @@ public class Contact {
   private Set<ContactGroup> contactGroups = new HashSet<>();
 
   public Contact() {}
-
+   
   public Contact(String firstName, String lastName, String email) {
     this.firstName = firstName;
     this.lastName = lastName;
