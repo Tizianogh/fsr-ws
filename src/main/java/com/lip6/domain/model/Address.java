@@ -21,14 +21,17 @@ public class Address {
 
     private String ville;
 
+    private String pays;
+
     public Address() {
 
     }
 
-    public Address(String rue, String departement, String ville) {
+    public Address(String rue, String departement, String ville, String pays) {
         this.rue = rue;
         this.departement = departement;
         this.ville = ville;
+        this.pays = pays;
     }
 
     public String getRue() {
@@ -59,10 +62,18 @@ public class Address {
         this.contact = contact;
     }
 
+    public String getPays() {
+        return pays;
+    }
+
+    public void setPays(String pays) {
+        this.pays = pays;
+    }
+
     @Override
     public String toString() {
-        return "Address [idAddress=" + idAddress + ", contact=" + contact + ", rue=" + rue + ", departement="
-                + departement + ", ville=" + ville + "]";
+        return "Address [idAddress=" + idAddress + ", contact=" + contact + ", rue=" + rue + ", departement=" + departement
+                + ", ville=" + ville + ", pays=" + pays + "]";
     }
 
 }

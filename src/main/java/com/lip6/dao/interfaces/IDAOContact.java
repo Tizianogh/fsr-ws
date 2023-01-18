@@ -19,4 +19,5 @@ public interface IDAOContact {
     public List<Contact> getAllContacts();
 
     public int updateContact(Contact contact);
+
 }

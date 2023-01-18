@@ -1,6 +1,5 @@
 package com.lip6.domain.services.implementation;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +31,12 @@ public class ContactGroupServiceImpl implements ContactGroupService {
 
     @Override
     public Optional<ContactGroup> addContactToContactGroup(Contact contact, Long idContactGroup) {
-        List<Contact> contactByEmail = this.contactServiceImpl.retrieveAllInformationsAboutContactByHisEmail(contact.getEmail());
-        Optional<ContactGroup> contactGroupById = this.getContactGroupById(idContactGroup);
+        // List<Contact> contactByEmail =
+        // this.contactServiceImpl.retrieveAllInformationsAboutContactByHisEmail(contact.getEmail());
+        // Optional<ContactGroup> contactGroupById = this.getContactGroupById(idContactGroup);
 
-        if (!contactGroupById.get().getContacts().add(contactByEmail.get(0))) {
-            System.out.println("Le contact n'a pas été ajouté au group de contact");
-            return Optional.empty();
-        }
-
-        return contactGroupById;
+        return Optional
+                .ofNullable(this.daoc.addContactToGroup(contact, idContactGroup));
     }
 
     @Override
@@ -54,5 +50,11 @@ public class ContactGroupServiceImpl implements ContactGroupService {
         System.out.println("Le groupe de contact : " + contactGroupById.get().getLibelle() + ", a été crédité d'un utilisateur.");
 
         return contactGroupById;
+    }
+
+    @Override
+    public Optional<ContactGroup> removeContactToContactGroup(Contact contact, Long idContactGroup) {
+        return Optional
+                .ofNullable(this.daoc.deletContactFromGroup(contact, idContactGroup));
     }
 }

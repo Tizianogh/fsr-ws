@@ -17,9 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.context.ApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lip6.domain.model.Contact;
@@ -30,14 +29,15 @@ import com.lip6.domain.services.interfaces.ContactService;
 @WebServlet("/contact")
 public class GetAllInformationAboutUserByHisEmailResource extends HttpServlet {
 
-    @Autowired
-    @Qualifier("contactService")
+    private ApplicationContext context;
+
     private ContactService contactService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+        this.context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+        this.contactService = (ContactService) context.getBean("contactImpService");
     }
 
     @Override

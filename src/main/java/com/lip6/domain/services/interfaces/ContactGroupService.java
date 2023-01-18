@@ -10,5 +10,7 @@ public interface ContactGroupService {
 
     public Optional<ContactGroup> addContactToContactGroup(Contact contact, Long idContactGroup);
 
+    public Optional<ContactGroup> removeContactToContactGroup(Contact contact, Long idContactGroup);
+
     public Optional<ContactGroup> getContactGroupById(Long idContactGroup);
 }

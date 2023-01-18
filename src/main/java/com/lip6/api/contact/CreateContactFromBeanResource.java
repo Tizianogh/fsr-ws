@@ -16,10 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,29 +25,24 @@ import com.lip6.domain.model.ContactGroup;
 import com.lip6.domain.model.Response;
 import com.lip6.domain.model.Response.Builder;
 import com.lip6.domain.services.interfaces.ContactGroupService;
-import com.lip6.domain.services.interfaces.ContactService;
 
 @WebServlet("/contact/bean/new")
 public class CreateContactFromBeanResource extends HttpServlet {
-    @Autowired
-    @Qualifier("contactService")
-    private ContactService contactService;
+    private ApplicationContext context;
 
-    @Autowired
-    @Qualifier("contactGroupService")
     private ContactGroupService contactGroupService;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+        this.context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
+        this.contactGroupService = (ContactGroupService) context.getBean("contactGroupImpService");
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html; charset=UTF-8");
-        ApplicationContext context = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
 
         Contact firstContactFromBean = (Contact) context.getBean("firstContactFromBean");
         Contact secondContactFromBean = (Contact) context.getBean("secondContactFromBean");

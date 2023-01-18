@@ -17,6 +17,10 @@
 	<!-- <context:component-scan base-package="com.lip6.services.*" /> <context:annotation-config/> -->
 	<bean id="emf" class="com.lip6.util.JpaUtil"
 		factory-method="getEmf" />
+		
+	<bean id="contactImpService" class="com.lip6.domain.services.implementation.ContactServiceImpl"/>
+	<bean id="contactGroupImpService" class="com.lip6.domain.services.implementation.ContactGroupServiceImpl"/>
+		
 
 	<bean id="firstContactFromBean"
 		class="com.lip6.domain.model.Contact">
@@ -83,6 +87,9 @@
 		<property name="ville">
 			<value>Champigny-Sur-Marne</value>
 		</property>
+		<property name="pays">
+			<value>France</value>
+		</property>
 		<property name="contact">
 			<ref bean="firstContactFromBean" />
 		</property>
@@ -98,6 +105,9 @@
 		</property>
 		<property name="ville">
 			<value>Nanterre</value>
+		</property>
+		<property name="pays">
+			<value>France</value>
 		</property>
 		<property name="contact">
 			<ref bean="secondContactFromBean" />
