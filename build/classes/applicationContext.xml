@@ -20,8 +20,9 @@
 		
 	<bean id="contactImpService" class="com.lip6.domain.services.implementation.ContactServiceImpl"/>
 	<bean id="contactGroupImpService" class="com.lip6.domain.services.implementation.ContactGroupServiceImpl"/>
+	<bean id="phoneNumImpService" class="com.lip6.domain.services.implementation.PhoneServiceImpl"/>
 		
-
+<!--  CONTACT #1 -->
 	<bean id="firstContactFromBean"
 		class="com.lip6.domain.model.Contact">
 		<property name="firstName">
@@ -48,35 +49,8 @@
 			</set>
 		</property>
 	</bean>
-
-	<bean id="secondContactFromBean"
-		class="com.lip6.domain.model.Contact">
-		<property name="firstName">
-			<value>Aymeric</value>
-		</property>
-		<property name="lastName">
-			<value>Laforche</value>
-		</property>
-		<property name="email">
-			<value>al@gmail.com</value>
-		</property>
-		<property name="address">
-			<ref bean="adressForContactNumberTwo" />
-		</property>
-		<property name="phones">
-			<set>
-				<ref bean="numNumberThree" />
-				<ref bean="numNumberFour" />
-			</set>
-		</property>
-		<property name="contactGroups">
-			<set>
-				<ref bean="firstGroupContactFromBean" />
-			</set>
-		</property>
-	</bean>
-
-	<bean id="adressForContactNumberOne"
+	
+		<bean id="adressForContactNumberOne"
 		class="com.lip6.domain.model.Address">
 		<property name="rue">
 			<value>55 Rue Diderot</value>
@@ -94,8 +68,56 @@
 			<ref bean="firstContactFromBean" />
 		</property>
 	</bean>
+	
+	<bean id="numNumberOne" class="com.lip6.domain.model.PhoneNum">
+		<property name="num">
+			<value>0678845625</value>
+		</property>
+		<property name="contact">
+			<ref bean="firstContactFromBean" />
+		</property>
+	</bean>
 
-	<bean id="adressForContactNumberTwo"
+	<bean id="numNumberTwo" class="com.lip6.domain.model.PhoneNum">
+		<property name="num">
+			<value>0754854765</value>
+		</property>
+		<property name="contact">
+			<ref bean="firstContactFromBean" />
+		</property>
+	</bean>
+	 
+	<!-- END CONTACT #1 -->
+	
+	<!-- CONTACT #2 -->
+	<bean id="secondContactFromBean"
+		class="com.lip6.domain.model.Contact">
+			<property name="firstName">
+				<value>Aymeric</value>
+			</property>
+		<property name="lastName">
+			<value>Laforche</value>
+		</property>
+		<property name="email">
+			<value>al@gmail.com</value>
+		</property>
+		<property name="address">
+			<ref bean="adressForContactNumberTwo" />
+		</property>
+		<property name="phones">
+			<set>
+				<ref bean="numNumberThree" />
+				<ref bean="numNumberFour" />
+			</set>
+		</property>
+		<property name="contactGroups">
+			<set>
+				<ref bean="secondGroupContactFromBean" />
+			</set>
+		</property>
+	</bean> 
+	
+ 	<bean id="adressForContactNumberTwo"
 		class="com.lip6.domain.model.Address">
 		<property name="rue">
 			<value>200 Av. de la République</value>
@@ -114,33 +136,6 @@
 		</property>
 	</bean>
 
-	<bean id="numNumberOne" class="com.lip6.domain.model.PhoneNum">
-		<property name="num">
-			<value>0678845625</value>
-		</property>
-		<property name="contact">
-			<ref bean="firstContactFromBean" />
-		</property>
-	</bean>
-
-	<bean id="numNumberTwo" class="com.lip6.domain.model.PhoneNum">
-		<property name="num">
-			<value>0754854765</value>
-		</property>
-		<property name="contact">
-			<ref bean="firstContactFromBean" />
-		</property>
-	</bean>
-
-	<bean id="numNumberThree" class="com.lip6.domain.model.PhoneNum">
-		<property name="num">
-			<value>0147748547</value>
-		</property>
-		<property name="contact">
-			<ref bean="secondContactFromBean" />
-		</property>
-	</bean>
-
 	<bean id="numNumberFour" class="com.lip6.domain.model.PhoneNum">
 		<property name="num">
 			<value>0554589621</value>
@@ -149,6 +144,15 @@
 			<ref bean="secondContactFromBean" />
 		</property>
 	</bean>
+	
+	<bean id="numNumberThree" class="com.lip6.domain.model.PhoneNum">
+		<property name="num">
+			<value>0147748547</value>
+		</property>
+		<property name="contact">
+			<ref bean="secondContactFromBean" />
+		</property>
+	</bean> 
 
 	<bean id="firstGroupContactFromBean"
 		class="com.lip6.domain.model.ContactGroup">
@@ -157,9 +161,100 @@
 		</property>
 		<property name="contacts">
 			<set>
-				<ref bean="firstContactFromBean" />
-				<ref bean="secondContactFromBean" />
+				<ref bean="firstContactFromBean" />			
 			</set>
 		</property>
 	</bean>
+	
+	
+	<bean id="secondGroupContactFromBean"
+		class="com.lip6.domain.model.ContactGroup">
+		<property name="libelle">
+			<value>Le groupe numero2</value>
+		</property>
+		<property name="contacts">
+			<set>
+				<ref bean="secondContactFromBean" />			
+			</set>
+		</property>
+	</bean>
+	
+	<!-- CONTACT #2 -->
+	
+	<!--   	<bean id="secondContactFromBean"
+		class="com.lip6.domain.model.Contact">
+			<constructor-arg index="0"><value>Aymeric</value></constructor-arg>
+			<constructor-arg index="1"><value>Laforche</value></constructor-arg>
+			<constructor-arg index="2"><value>al@gmail.com</value></constructor-arg>
+			<constructor-arg index="3"><ref bean="adressForContactNumberTwo"/></constructor-arg>
+			<constructor-arg name="4">
+				<set>
+					<ref bean="numNumberThree" />
+					<ref bean="numNumberFour" />
+				</set>
+			</constructor-arg>
+			<constructor-arg index="5">
+				<set>
+					<ref bean="firstGroupContactFromBean" />
+				</set>
+			</constructor-arg>
+	</bean> 
+ 
+	<bean id="adressForContactNumberTwo"
+		class="com.lip6.domain.model.Address">
+		<constructor-arg index="0"><value>200 Av. de la République</value></constructor-arg>
+		<constructor-arg index="1"><value>92000</value></constructor-arg>
+		<constructor-arg index="2"><value>Nanterre</value></constructor-arg>
+		<constructor-arg index="3"><value>France</value></constructor-arg>
+		<constructor-arg index="4"><ref bean="secondContactFromBean" /></constructor-arg>
+	</bean>
+	
+	<bean id="numNumberThree" class="com.lip6.domain.model.PhoneNum">
+		<constructor-arg index="0"><value>0147748547</value></constructor-arg>
+		<constructor-arg index="1"><ref bean="secondContactFromBean" /></constructor-arg>
+	</bean>
+	
+	<bean id="numNumberFour" class="com.lip6.domain.model.PhoneNum">
+		<constructor-arg index="0"><value>0554589621</value></constructor-arg >
+		<constructor-arg index="1"><ref bean="secondContactFromBean" /></constructor-arg>
+	</bean>
+	
+	<bean id="firstGroupContactFromBean"
+		class="com.lip6.domain.model.ContactGroup">
+		<property name="libelle">
+			<value>Le groupe numero1</value>
+		</property>
+		<property name="contacts">
+			<set>
+				<ref bean="firstContactFromBean" />			
+			</set>
+		</property>
+	</bean>
+	
+	<bean id="secondGroupContactFromBean"
+		class="com.lip6.domain.model.ContactGroup">
+		<constructor-arg index="0"><value>Le groupe numero1</value></constructor-arg>
+		<constructor-arg index="1">
+			<set><ref bean="secondContactFromBean" /></set></constructor-arg>
+	</bean> 
+		<bean id="firstGroupContactFromBean"
+		class="com.lip6.domain.model.ContactGroup">
+		<property name="libelle">
+			<value>Le groupe numero1</value>
+		</property>
+		<property name="contacts">
+			<set>
+				<ref bean="firstContactFromBean" />			
+			</set>
+		</property>
+	</bean>
+	
+	<bean id="secondGroupContactFromBean"
+		class="com.lip6.domain.model.ContactGroup">
+		<constructor-arg index="0"><value>Le groupe numero1</value></constructor-arg>
+		<constructor-arg index="1">
+			<set><ref bean="secondContactFromBean" /></set></constructor-arg>
+	</bean> 
+	-->
+
 </beans>

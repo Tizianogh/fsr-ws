@@ -22,16 +22,21 @@ public class ContactGroup {
 
   private String libelle;
 
-  @ManyToMany(cascade = CascadeType.ALL, mappedBy = "contactGroups")
+  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST},
+      mappedBy = "contactGroups")
   @JsonIgnore
   private Set<Contact> contacts = new HashSet<Contact>();
 
   public ContactGroup() {}
 
   public ContactGroup(String libelle) {
-
     this.libelle = libelle;
   }
+
+  // public ContactGroup(String libelle, Set<Contact> contact) {
+  // this.libelle=libelle;
+  // this.contacts=contact;
+  // }
 
   public Set<Contact> entityManager() {
     return this.contacts;
@@ -70,6 +75,7 @@ public class ContactGroup {
     this.contacts.add(c);
     c.getContactGroups().add(this);
   }
+
 
   @Override
   public String toString() {

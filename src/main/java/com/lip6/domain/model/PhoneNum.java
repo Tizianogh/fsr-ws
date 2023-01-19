@@ -8,37 +8,52 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class PhoneNum {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idPhoneNum;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long idPhoneNum;
 
-    private String num;
+  private String num;
 
-    @ManyToOne
-    private Contact contact;
+  @ManyToOne
+  private Contact contact;
 
-    public PhoneNum() {
+  public PhoneNum() {
 
-    }
+  }
 
-    public PhoneNum(String num) {
-        this.num = num;
-    }
+  public PhoneNum(String num) {
+    this.num = num;
+  }
 
-    public String getNum() {
-        return num;
-    }
+  //
+  // public PhoneNum(String num, Contact contact) {
+  // this.num = num;
+  // this.contact=contact;
+  // }
 
-    public void setNum(String num) {
-        this.num = num;
-    }
+  public String getNum() {
+    return num;
+  }
 
-    public void setContact(Contact contact) {
-        this.contact = contact;
-    }
+  public void setNum(String num) {
+    this.num = num;
+  }
 
-    @Override
-    public String toString() {
-        return "PhoneNum [idPhoneNum=" + idPhoneNum + ", num=" + num + ", contact=" + contact + "]";
-    }
+  public void setContact(Contact contact) {
+    this.contact = contact;
+  }
+
+
+  public long getIdPhoneNum() {
+    return idPhoneNum;
+  }
+
+  public void setIdPhoneNum(long idPhoneNum) {
+    this.idPhoneNum = idPhoneNum;
+  }
+
+  @Override
+  public String toString() {
+    return "PhoneNum [idPhoneNum=" + idPhoneNum + ", num=" + num + ", contact=" + contact + "]";
+  }
 }

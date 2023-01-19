@@ -13,4 +13,6 @@ public interface ContactGroupService {
     public Optional<ContactGroup> removeContactToContactGroup(Contact contact, Long idContactGroup);
 
     public Optional<ContactGroup> getContactGroupById(Long idContactGroup);
+    
+    public boolean deletedContactGroup(Long idContactGroup);
 }

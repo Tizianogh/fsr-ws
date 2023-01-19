@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,24 +33,35 @@ public class Contact {
 
   private String email;
 
-  @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "contact")
+  @OneToOne(cascade = CascadeType.PERSIST, mappedBy = "contact", orphanRemoval = true)
   private Address address;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "contact", orphanRemoval = true)
   Set<PhoneNum> phones = new HashSet<PhoneNum>();
 
-  @ManyToMany(cascade = CascadeType.ALL)
+  @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
   @JoinTable(name = "CTC_GRP", joinColumns = @JoinColumn(name = "CTC_ID"),
       inverseJoinColumns = @JoinColumn(name = "GRP_ID"))
   private Set<ContactGroup> contactGroups = new HashSet<>();
 
   public Contact() {}
-   
+
   public Contact(String firstName, String lastName, String email) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
   }
+
+  // public Contact(String firstName, String lastName, String email, Set<ContactGroup>
+  // contactGroups, Address address, Set<PhoneNum> phones) {
+  // this.firstName = firstName;
+  // this.lastName = lastName;
+  // this.email = email;
+  // this.address=address;
+  // this.contactGroups=contactGroups;
+  // this.phones=phones;
+  // }
+
 
   public String getEmail() {
     return email;
@@ -96,8 +108,19 @@ public class Contact {
   }
 
   public void setAddress(Address address) {
+    if (address == null) {
+      if (this.address != null) {
+        this.address.setContact(null);
+      }
+    } else {
+      address.setContact(this);
+    }
     this.address = address;
-    address.setContact(this);
+  }
+
+  public void addAddress(Address address) {
+    this.address = address;
+    // address.setContact(this);
   }
 
   public Set<ContactGroup> getContactGroups() {

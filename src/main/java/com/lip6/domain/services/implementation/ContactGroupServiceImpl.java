@@ -41,7 +41,7 @@ public class ContactGroupServiceImpl implements ContactGroupService {
 
     @Override
     public Optional<ContactGroup> getContactGroupById(Long idContactGroup) {
-        Optional<ContactGroup> contactGroupById = Optional.ofNullable(this.daoc.getContactGroupProxyById(idContactGroup));
+        Optional<ContactGroup> contactGroupById = Optional.ofNullable(this.daoc.getContactGroupWithFetch(idContactGroup));
 
         if (!contactGroupById.isPresent()) {
             System.out.println("Aucun groupe de contacts avec l'id " + idContactGroup + " trouvé en base de données.");
@@ -56,5 +56,17 @@ public class ContactGroupServiceImpl implements ContactGroupService {
     public Optional<ContactGroup> removeContactToContactGroup(Contact contact, Long idContactGroup) {
         return Optional
                 .ofNullable(this.daoc.deletContactFromGroup(contact, idContactGroup));
+    }
+
+    @Override
+    public boolean deletedContactGroup(Long idContactGroup) {
+       boolean deletedContact = this.daoc.deleteContactGroup(idContactGroup);
+       
+       if(deletedContact) {
+         System.out.println("Contact supprimé : " + idContactGroup);
+          return deletedContact;
+       } 
+       
+       return !deletedContact;
     }
 }

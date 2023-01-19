@@ -9,11 +9,13 @@ public interface IDAOContactGroup {
 
     public ContactGroupDTO getContactGroupById(Long idGroupContact);
 
-    public ContactGroup getContactGroupProxyById(Long idGroupContact);
+    public ContactGroup getContactGroupWithFetch(Long idGroupContact);
 
     public ContactGroup addContactToGroup(Contact emailContact, Long idContactGroup);
 
     public ContactGroup getGroupContactById(Long idGroupContact);
 
     public ContactGroup deletContactFromGroup(Contact emailContact, Long idContactGroup);
+    
+    public boolean deleteContactGroup(Long idContactGroup);
 }

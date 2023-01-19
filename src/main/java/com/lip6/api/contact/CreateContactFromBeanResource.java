@@ -47,10 +47,14 @@ public class CreateContactFromBeanResource extends HttpServlet {
         Contact firstContactFromBean = (Contact) context.getBean("firstContactFromBean");
         Contact secondContactFromBean = (Contact) context.getBean("secondContactFromBean");
         ContactGroup firstContactGroup = (ContactGroup) context.getBean("firstGroupContactFromBean");
-
+        ContactGroup secondContactGroup = (ContactGroup) context.getBean("secondGroupContactFromBean");
+        
         contactGroupService.createContactGroup(firstContactGroup);
+        contactGroupService.createContactGroup(secondContactGroup);
 
-        List<Contact> contacts = Arrays.asList(firstContactFromBean, secondContactFromBean);
+        List<Contact> firstContacts = Arrays.asList(firstContactFromBean);
+        List<Contact> secondContacts = Arrays.asList(secondContactFromBean);
+        List<Contact> contacts = Arrays.asList(firstContactFromBean,secondContactFromBean);
 
         PrintWriter out = response.getWriter();
 

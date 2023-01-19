@@ -8,72 +8,81 @@ import javax.persistence.OneToOne;
 
 @Entity
 public class Address {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idAddress;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private long idAddress;
 
-    @OneToOne
-    private Contact contact;
+  @OneToOne
+  private Contact contact;
 
-    private String rue;
+  private String rue;
 
-    private String departement;
+  private String departement;
 
-    private String ville;
+  private String ville;
 
-    private String pays;
+  private String pays;
 
-    public Address() {
+  public Address() {
 
-    }
+  }
 
-    public Address(String rue, String departement, String ville, String pays) {
-        this.rue = rue;
-        this.departement = departement;
-        this.ville = ville;
-        this.pays = pays;
-    }
+  public Address(String rue, String departement, String ville, String pays) {
+    this.rue = rue;
+    this.departement = departement;
+    this.ville = ville;
+    this.pays = pays;
+  }
 
-    public String getRue() {
-        return rue;
-    }
+  // public Address(String rue, String departement, String ville, String pays, Contact contact) {
+  // this.rue = rue;
+  // this.departement = departement;
+  // this.ville = ville;
+  // this.pays = pays;
+  // this.contact=contact;
+  // }
 
-    public void setRue(String rue) {
-        this.rue = rue;
-    }
+  public String getRue() {
+    return rue;
+  }
 
-    public String getDepartement() {
-        return departement;
-    }
+  public void setRue(String rue) {
+    this.rue = rue;
+  }
 
-    public void setDepartement(String departement) {
-        this.departement = departement;
-    }
+  public String getDepartement() {
+    return departement;
+  }
 
-    public String getVille() {
-        return ville;
-    }
+  public void setDepartement(String departement) {
+    this.departement = departement;
+  }
 
-    public void setVille(String ville) {
-        this.ville = ville;
-    }
+  public String getVille() {
+    return ville;
+  }
 
-    public void setContact(Contact contact) {
-        this.contact = contact;
-    }
+  public void setVille(String ville) {
+    this.ville = ville;
+  }
 
-    public String getPays() {
-        return pays;
-    }
+  public void setContact(Contact contact) {
+    this.contact = contact;
+  }
 
-    public void setPays(String pays) {
-        this.pays = pays;
-    }
+  public String getPays() {
+    return pays;
+  }
 
-    @Override
-    public String toString() {
-        return "Address [idAddress=" + idAddress + ", contact=" + contact + ", rue=" + rue + ", departement=" + departement
-                + ", ville=" + ville + ", pays=" + pays + "]";
-    }
+  public void setPays(String pays) {
+    this.pays = pays;
+  }
+
+  @Override
+  public String toString() {
+    return "Address [idAddress=" + idAddress + ", contact=" + contact + ", rue=" + rue
+        + ", departement=" + departement
+        + ", ville=" + ville + ", pays=" + pays + "]";
+  }
 
 }

@@ -3,7 +3,6 @@ package com.lip6.dao.implementation;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
-import org.hibernate.annotations.QueryHints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -52,13 +51,14 @@ public class DAOContactGroup implements IDAOContactGroup {
   }
 
   @Override
-  public ContactGroup getContactGroupProxyById(Long idGroupContact) {
-    String request = "SELECT DISTINCT c FROM ContactGroup c LEFT JOIN FETCH c.contacts WHERE c.idContactGroup= :idContactGroup";
+  public ContactGroup getContactGroupWithFetch(Long idGroupContact) {
+    String request =
+        "SELECT DISTINCT c FROM ContactGroup c LEFT JOIN FETCH c.contacts WHERE c.idContactGroup= :idContactGroup";
     EntityManager entityManager = this.emf.createEntityManager();
 
     ContactGroup contactGroupProxyById =
         entityManager.createQuery(request, ContactGroup.class)
-        .setParameter("idContactGroup", idGroupContact).getSingleResult();
+            .setParameter("idContactGroup", idGroupContact).getSingleResult();
 
 
     return contactGroupProxyById;
@@ -71,12 +71,12 @@ public class DAOContactGroup implements IDAOContactGroup {
 
     Contact contactByEmail =
         this.daoc.getAllInformationsAboutContactByHisEmail(emailContact.getEmail()).get(0);
-    ContactGroup cgById = this.getContactGroupProxyById(idContactGroup);
+    ContactGroup cgById = this.getContactGroupWithFetch(idContactGroup);
     tx.begin();
 
     cgById.getContacts().add(contactByEmail);
     contactByEmail.getContactGroups().add(cgById);
-    
+
     entityManager.merge(cgById);
     entityManager.merge(contactByEmail);
 
@@ -93,30 +93,54 @@ public class DAOContactGroup implements IDAOContactGroup {
     ContactGroup find = entityManager.find(ContactGroup.class, idGroupContact);
     entityManager.close();
     return find;
-    
+
   }
 
   @Override
   public ContactGroup deletContactFromGroup(Contact emailContact, Long idContactGroup) {
     EntityManager entityManager = this.emf.createEntityManager();
     EntityTransaction tx = entityManager.getTransaction();
-
     Contact contactByEmail =
         this.daoc.getAllInformationsAboutContactByHisEmail(emailContact.getEmail()).get(0);
-    ContactGroup cgById = this.getContactGroupProxyById(idContactGroup);
+    ContactGroup cgById = this.getContactGroupWithFetch(idContactGroup);
 
     tx.begin();
 
-    cgById.getContacts().remove(contactByEmail);
-    contactByEmail.getContactGroups().remove(cgById);
-    
+    cgById.getContacts().stream().filter($ -> $.getIdContact() == contactByEmail.getIdContact())
+        .forEach($ -> cgById.getContacts().remove($));
+    contactByEmail.getContactGroups().stream()
+        .filter($ -> $.getIdContactGroup() == cgById.getIdContactGroup())
+        .forEach($ -> contactByEmail.getContactGroups().remove($));
+
     entityManager.merge(cgById);
     entityManager.merge(contactByEmail);
-    entityManager.flush();
-    
+
     tx.commit();
     entityManager.close();
 
     return cgById;
   }
+
+  @Override
+  public boolean deleteContactGroup(Long idContactGroup) {
+    EntityManager entityManager = this.emf.createEntityManager();
+    EntityTransaction tx = entityManager.getTransaction();
+    ContactGroup cgById = entityManager.find(ContactGroup.class, idContactGroup);
+    if (cgById != null) {
+      tx.begin();
+      entityManager.remove(cgById);
+
+      for (Contact contact : cgById.getContacts()) {
+        contact.getContactGroups().remove(cgById);
+        entityManager.merge(contact);
+      }
+
+      tx.commit();
+
+      entityManager.close();
+      return true;
+    }
+    return false;
+  }
+
 }
